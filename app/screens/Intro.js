@@ -12,11 +12,11 @@ import RoundIconBtn from '../components/RoundIconBtn';
 import colors from '../misc/colors';
 
 const Intro = ({ onFinish }) => {
-  const [name, setName] = useState('');
-  const handleOnChangeText = text => setName(text);
+  const [password, setPassword] = useState('');
+  const handleOnChangeText = text => setPassword(text);
 
   const handleSubmit = async () => {
-    const user = { name: name };
+    const user = { password: password };
     await AsyncStorage.setItem('user', JSON.stringify(user));
     if (onFinish) onFinish();
   };
@@ -25,14 +25,14 @@ const Intro = ({ onFinish }) => {
     <>
       <StatusBar hidden />
       <View style={styles.container}>
-        <Text style={styles.inputTitle}>Insira o seu nome para continuar</Text>
+        <Text style={styles.inputTitle}>Insira sua senha para continuar</Text>
         <TextInput
-          value={name}
+          value={password}
           onChangeText={handleOnChangeText}
-          placeholder='Enter Name'
+          placeholder='Enter password'
           style={styles.textInput}
         />
-        {name.trim().length >= 3 ? (
+        {password.trim().length >= 3 ? (
           <RoundIconBtn antIconName='arrowright' onPress={handleSubmit} />
         ) : null}
       </View>

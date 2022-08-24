@@ -1,5 +1,5 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { useEffect, useState } from 'react';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -8,16 +8,16 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   FlatList,
-} from 'react-native';
-import Note from '../components/Note';
-import NoteInputModal from '../components/NoteInputModal';
-import NotFound from '../components/NotFound';
-import RoundIconBtn from '../components/RoundIconBtn';
-import SearchBar from '../components/SearchBar';
-import { useNotes } from '../contexts/NoteProvider';
-import colors from '../misc/colors';
+} from "react-native";
+import Note from "../components/Note";
+import NoteInputModal from "../components/NoteInputModal";
+import NotFound from "../components/NotFound";
+import RoundIconBtn from "../components/RoundIconBtn";
+import SearchBar from "../components/SearchBar";
+import { useNotes } from "../contexts/NoteProvider";
+import colors from "../misc/colors";
 
-const reverseData = data => {
+const reverseData = (data) => {
   return data.sort((a, b) => {
     const aInt = parseInt(a.time);
     const bInt = parseInt(b.time);
@@ -28,18 +28,18 @@ const reverseData = data => {
 };
 
 const NoteScreen = ({ user, navigation }) => {
-  const [greet, setGreet] = useState('');
+  const [greet, setGreet] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [resultNotFound, setResultNotFound] = useState(false);
 
   const { notes, setNotes, findNotes } = useNotes();
 
   const findGreet = () => {
     const hrs = new Date().getHours();
-    if (hrs === 0 || hrs < 12) return setGreet('Dia');
-    if (hrs === 1 || hrs < 17) return setGreet('Tarde');
-    setGreet('Noite');
+    if (hrs === 0 || hrs < 12) return setGreet("Bom Dia");
+    if (hrs === 1 || hrs < 17) return setGreet("Boa Tarde");
+    setGreet("Boa Noite");
   };
 
   useEffect(() => {
@@ -52,21 +52,21 @@ const NoteScreen = ({ user, navigation }) => {
     const note = { id: Date.now(), title, desc, time: Date.now() };
     const updatedNotes = [...notes, note];
     setNotes(updatedNotes);
-    await AsyncStorage.setItem('notes', JSON.stringify(updatedNotes));
+    await AsyncStorage.setItem("notes", JSON.stringify(updatedNotes));
   };
 
-  const openNote = note => {
-    navigation.navigate('NoteDetail', { note });
+  const openNote = (note) => {
+    navigation.navigate("NoteDetail", { note });
   };
 
-  const handleOnSearchInput = async text => {
+  const handleOnSearchInput = async (text) => {
     setSearchQuery(text);
     if (!text.trim()) {
-      setSearchQuery('');
+      setSearchQuery("");
       setResultNotFound(false);
       return await findNotes();
     }
-    const filteredNotes = notes.filter(note => {
+    const filteredNotes = notes.filter((note) => {
       if (note.title.toLowerCase().includes(text.toLowerCase())) {
         return note;
       }
@@ -80,17 +80,17 @@ const NoteScreen = ({ user, navigation }) => {
   };
 
   const handleOnClear = async () => {
-    setSearchQuery('');
+    setSearchQuery("");
     setResultNotFound(false);
     await findNotes();
   };
 
   return (
     <>
-      <StatusBar barStyle='dark-content' backgroundColor={colors.LIGHT} />
+      <StatusBar barStyle="dark-content" backgroundColor={colors.LIGHT} />
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
-          <Text style={styles.header}>{`Bom ${greet} ${user.name}`}</Text>
+          <Text style={styles.header}>{`${greet}, seja bem vinda!`}</Text>
           {notes.length ? (
             <SearchBar
               value={searchQuery}
@@ -107,10 +107,10 @@ const NoteScreen = ({ user, navigation }) => {
               data={reverseNotes}
               numColumns={2}
               columnWrapperStyle={{
-                flexDirection: 'column',
-                justifyContent: 'flex-start',
+                flexDirection: "column",
+                justifyContent: "flex-start",
               }}
-              keyExtractor={item => item.id.toString()}
+              keyExtractor={(item) => item.id.toString()}
               renderItem={({ item }) => (
                 <Note onPress={() => openNote(item)} item={item} />
               )}
@@ -131,8 +131,9 @@ const NoteScreen = ({ user, navigation }) => {
       </TouchableWithoutFeedback>
       <RoundIconBtn
         onPress={() => setModalVisible(true)}
-        antIconName='plus'
+        antIconName="plus"
         style={styles.addBtn}
+        color={"#fff"}
       />
       <NoteInputModal
         visible={modalVisible}
@@ -146,31 +147,30 @@ const NoteScreen = ({ user, navigation }) => {
 const styles = StyleSheet.create({
   header: {
     fontSize: 25,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     paddingTop: 40,
-    textAlign: 'center',
-    color: '#fff',
+    textAlign: "center",
+    color: "#000",
   },
   container: {
     paddingHorizontal: 20,
     flex: 1,
     zIndex: 1,
-    backgroundColor: '#282a36',
   },
   emptyHeader: {
     fontSize: 25,
-    textTransform: 'uppercase',
-    fontWeight: 'bold',
+    textTransform: "uppercase",
+    fontWeight: "bold",
     opacity: 0.2,
   },
   emptyHeaderContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     zIndex: -1,
   },
   addBtn: {
-    position: 'absolute',
+    position: "absolute",
     right: 15,
     bottom: 50,
     zIndex: 1,

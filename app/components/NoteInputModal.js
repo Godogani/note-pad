@@ -3,13 +3,11 @@ import {
   View,
   StyleSheet,
   Modal,
-  Text,
   StatusBar,
   TextInput,
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import { YellowBox } from 'react-native-web';
 import colors from '../misc/colors';
 import RoundIconBtn from './RoundIconBtn';
 

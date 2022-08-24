@@ -11,7 +11,7 @@ const SearchBar = ({ containerStyle, value, onClear, onChangeText }) => {
         onChangeText={onChangeText}
         style={styles.searchBar}
         placeholder='Buscar..'
-        placeholderTextColor={'#fff'}
+        placeholderTextColor={'#000'}
       />
       {value ? (
         <AntDesign
