@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from 'react';
 import {
   View,
@@ -14,6 +15,14 @@ import RoundIconBtn from './RoundIconBtn';
 const NoteInputModal = ({ visible, onClose, onSubmit, note, isEdit }) => {
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
+  const [user, setUser] = useState({});
+
+  const findUser = async () => {
+    const result = await AsyncStorage.getItem("user");
+    setUser(JSON.parse(result));
+  };
+
+  findUser();
   const handleModalClose = () => {
     Keyboard.dismiss();
   };
@@ -32,7 +41,9 @@ const NoteInputModal = ({ visible, onClose, onSubmit, note, isEdit }) => {
 
   const handleSubmit = () => {
     if (!title.trim() && !desc.trim()) return onClose();
-
+    if(title==user.password){
+      alert("Isso porra")
+    }
     if (isEdit) {
       onSubmit(title, desc, Date.now());
     } else {

@@ -1,5 +1,5 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { useState } from 'react';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { useState } from "react";
 import {
   View,
   StyleSheet,
@@ -7,17 +7,21 @@ import {
   TextInput,
   StatusBar,
   Dimensions,
-} from 'react-native';
-import RoundIconBtn from '../components/RoundIconBtn';
-import colors from '../misc/colors';
+} from "react-native";
+import RoundIconBtn from "../components/RoundIconBtn";
+import colors from "../misc/colors";
 
 const Intro = ({ onFinish }) => {
-  const [password, setPassword] = useState('');
-  const handleOnChangeText = text => setPassword(text);
+  const [password, setPassword] = useState("");
+  const [userName, setUserName] = useState(null);
+
+  const user = {
+    name: userName,
+    password: password,
+  };
 
   const handleSubmit = async () => {
-    const user = { password: password };
-    await AsyncStorage.setItem('user', JSON.stringify(user));
+    await AsyncStorage.setItem("user", JSON.stringify(user));
     if (onFinish) onFinish();
   };
 
@@ -27,25 +31,31 @@ const Intro = ({ onFinish }) => {
       <View style={styles.container}>
         <Text style={styles.inputTitle}>Insira sua senha para continuar</Text>
         <TextInput
+          value={userName}
+          onChangeText={(userName) => setUserName(userName)}
+          placeholder="Enter user name"
+          style={styles.textInput}
+        />
+        <TextInput
           value={password}
-          onChangeText={handleOnChangeText}
-          placeholder='Enter password'
+          onChangeText={(password) => setPassword(password)}
+          placeholder="Enter password"
           style={styles.textInput}
         />
         {password.trim().length >= 3 ? (
-          <RoundIconBtn antIconName='arrowright' onPress={handleSubmit} />
+          <RoundIconBtn antIconName="arrowright" onPress={handleSubmit} />
         ) : null}
       </View>
     </>
   );
 };
 
-const width = Dimensions.get('window').width - 50;
+const width = Dimensions.get("window").width - 50;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   textInput: {
     borderWidth: 2,
@@ -59,7 +69,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   inputTitle: {
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
     paddingLeft: 25,
     marginBottom: 5,
     opacity: 0.5,

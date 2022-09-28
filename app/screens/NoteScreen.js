@@ -27,7 +27,7 @@ const reverseData = (data) => {
   });
 };
 
-const NoteScreen = ({ user, navigation }) => {
+const NoteScreen = ({user, navigation }) => {
   const [greet, setGreet] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -90,7 +90,7 @@ const NoteScreen = ({ user, navigation }) => {
       <StatusBar barStyle="dark-content" backgroundColor={colors.LIGHT} />
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
-          <Text style={styles.header}>{`${greet}, seja bem vinda!`}</Text>
+          <Text style={styles.header}>{`${greet}, seja bem vinda ${user.name}!`}</Text>
           {notes.length ? (
             <SearchBar
               value={searchQuery}

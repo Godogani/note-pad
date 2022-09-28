@@ -39,7 +39,7 @@ const NoteDetail = props => {
 
   const displayDeleteAlert = () => {
     Alert.alert(
-      'Tem certeza!',
+      'Tem certeza?',
       'Esta ação excluirá sua nota permanentemente!',
       [
         {
